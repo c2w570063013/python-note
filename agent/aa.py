@@ -1,7 +1,9 @@
-import requests
 import json
+
 import pymysql
-import db_config as config
+import requests
+
+from ignore import db_config as config
 
 # print(db.db_config['host'])
 # exit()
