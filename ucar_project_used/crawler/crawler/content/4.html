@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><title>
+	消费明细查询
+</title><link href="CSS/StyleSheet2.css" type="text/css" rel="stylesheet" /><link href="CSS/StyleTab.css" type="text/css" rel="stylesheet" />
+
+    <script src="JS/JSCode.js" type="text/javascript"></script>
+<link href="/WebResource.axd?d=GNZ2scDxK6cW4gOvzfxx3vlRlRNXKkKKOE5aUUWGFCLGgIb30pnaZOB_ZGj_QIuBXfkAO1YRUo29KrM9Lfcmjw2&amp;t=635120972147812500" type="text/css" rel="stylesheet" /></head>
+<body>
+    <form name="aspnetForm" method="post" action="WebConsumeDetail.aspx" id="aspnetForm">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE0MjE2NTkzMzUPFhgeC1N0YXRpb25OYW1lZR4IdG90YWxudW0CDR4GY2FyZGlkZR4MbGV2ZWxkYXRhc2V0MtANAAEAAAD/////AQAAAAAAAAAMAgAAAE5TeXN0ZW0uRGF0YSwgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAABNTeXN0ZW0uRGF0YS5EYXRhU2V0AwAAABdEYXRhU2V0LlJlbW90aW5nVmVyc2lvbglYbWxTY2hlbWELWG1sRGlmZkdyYW0DAQEOU3lzdGVtLlZlcnNpb24CAAAACQMAAAAGBAAAAKcKPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTE2Ij8+DQo8eHM6c2NoZW1hIGlkPSJOZXdEYXRhU2V0IiB4bWxucz0iIiB4bWxuczp4cz0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOm1zZGF0YT0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp4bWwtbXNkYXRhIj4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTmV3RGF0YVNldCIgbXNkYXRhOklzRGF0YVNldD0idHJ1ZSIgbXNkYXRhOlVzZUN1cnJlbnRMb2NhbGU9InRydWUiPg0KICAgIDx4czpjb21wbGV4VHlwZT4NCiAgICAgIDx4czpjaG9pY2UgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCI+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IlRhYmxlIj4NCiAgICAgICAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ik5fTEVWRUxfU0VRIiB0eXBlPSJ4czppbnQiIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDX0xFVkVMX0lEIiB0eXBlPSJ4czpzdHJpbmciIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDX0xFVkVMX0ZJRCIgdHlwZT0ieHM6c3RyaW5nIiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ19MRVZFTF9OQU1FIiB0eXBlPSJ4czpzdHJpbmciIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDX0xFVkVMX1NOQU1FIiB0eXBlPSJ4czpzdHJpbmciIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDX0lGTEVBRiIgdHlwZT0ieHM6c3RyaW5nIiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iTl9MRVZFTF9GU0VRIiB0eXBlPSJ4czppbnQiIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgPC94czpzZXF1ZW5jZT4NCiAgICAgICAgICA8L3hzOmNvbXBsZXhUeXBlPg0KICAgICAgICA8L3hzOmVsZW1lbnQ+DQogICAgICA8L3hzOmNob2ljZT4NCiAgICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8L3hzOmVsZW1lbnQ+DQo8L3hzOnNjaGVtYT4GBQAAAIABPGRpZmZncjpkaWZmZ3JhbSB4bWxuczptc2RhdGE9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206eG1sLW1zZGF0YSIgeG1sbnM6ZGlmZmdyPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnhtbC1kaWZmZ3JhbS12MSIgLz4EAwAAAA5TeXN0ZW0uVmVyc2lvbgQAAAAGX01ham9yBl9NaW5vcgZfQnVpbGQJX1JldmlzaW9uAAAAAAgICAgCAAAAAAAAAP//////////Cx4HY3VycGFnZQIGHgVFRGF0ZQUKMjAxNy0xMS0yMh4FU0RhdGUFCjIwMTctMTEtMDEeCHRvdGFscm93AqgBHgVDYXJJRGUeCERhdGVUeXBlBQExHghMZXZlbFNFUWUeB1NoaWZ0SUQFATAWAmYPZBYCAgMPZBYCAgMPZBYYZg8PFgQeBFRleHQFD+WPr+mAieS4u+i0puWPtx4HVmlzaWJsZWhkZAIBDxAPFgIfDWhkDxYBZhYBEAUINTAwNDI3NDIFCDUwMDQyNzQyZxYBZmQCCA8PFgIeCU1heExlbmd0aGZkZAIJDw8WBB4MRXJyb3JNZXNzYWdlZR8MZWRkAgoPFhYeIEN1bHR1cmVDdXJyZW5jeVN5bWJvbFBsYWNlaG9sZGVyBQPvv6UeDkFjY2VwdE5lZ2F0aXZlCymCAUFqYXhDb250cm9sVG9vbGtpdC5NYXNrZWRFZGl0U2hvd1N5bWJvbCwgQWpheENvbnRyb2xUb29sa2l0LCBWZXJzaW9uPTEuMC4xMDYxOC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPTI4ZjAxYjBlODRiNmQ1M2UAHhZDdWx0dXJlVGltZVBsYWNlaG9sZGVyBQE6Hg5JbnB1dERpcmVjdGlvbgsphgFBamF4Q29udHJvbFRvb2xraXQuTWFza2VkRWRpdElucHV0RGlyZWN0aW9uLCBBamF4Q29udHJvbFRvb2xraXQsIFZlcnNpb249MS4wLjEwNjE4LjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49MjhmMDFiMGU4NGI2ZDUzZQAeDERpc3BsYXlNb25leQsrBAAeFkN1bHR1cmVBTVBNUGxhY2Vob2xkZXIFDeS4iuWNiDvkuIvljYgeEUN1bHR1cmVEYXRlRm9ybWF0BQNZTUQeFkN1bHR1cmVEYXRlUGxhY2Vob2xkZXIFAS0eG0N1bHR1cmVUaG91c2FuZHNQbGFjZWhvbGRlcgUBLB4KQWNjZXB0QW1QbWgeGUN1bHR1cmVEZWNpbWFsUGxhY2Vob2xkZXIFAS5kAg0PDxYCHw5mZGQCDg8PFgQfD2UfDGVkZAIPDxYWHxAFA++/pR8RCysEAB8SBQE6HxMLKwUAHxQLKwQAHxUFDeS4iuWNiDvkuIvljYgfFgUDWU1EHxcFAS0fGAUBLB8ZaB8aBQEuZAISD2QWAmYPZBYCAgEPEGQQFQEAFQEAFCsDAWdkZAIUD2QWAmYPZBYCAgEPDxYCHwwFayDmtojotLnph5Hpop0677+lMzksODQ4LjA077yM5oqY5ZCO6YeR6aKdOu+/pTM3LDIwMi45Oe+8jOaftOayuemUgOmHjzozMy4wMzDljYfvvIzmsb3msrnplIDph486NSw4MTQuMDE45Y2HZGQCFg9kFgJmD2QWAgIBDw8WBB4FV2lkdGgbAAAAAAAAWUAHAAAAHgRfIVNCAoACZGQCFw9kFgJmD2QWAgIBDw8WAh8MBUYg5YWx5p+l5Yiw5raI6LS55piO57uG5L+h5oGvMTY45p2h77yM5YiGMTPpobXmmL7npLrvvIzlvZPliY3kuLrnrKw26aG1ZGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFI2N0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkYnRuSW1hZ2UxBSNjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJGJ0bkltYWdlMo8EzgAd0VzxUp9jyd/9U3QVabeY" />
+
+
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIg0DbH2bMyE_dC0iAgHQhKNSi4EG-vgXV32o9HTAqzdcDQRi8MTvv6JoSjrf4EztM1&amp;t=635120972147812500" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var __cultureInfo = '{"name":"zh-CN","numberFormat":{"CurrencyDecimalDigits":2,"CurrencyDecimalSeparator":".","IsReadOnly":true,"CurrencyGroupSizes":[3],"NumberGroupSizes":[3],"PercentGroupSizes":[3],"CurrencyGroupSeparator":",","CurrencySymbol":"￥","NaNSymbol":"非数字","CurrencyNegativePattern":2,"NumberNegativePattern":1,"PercentPositivePattern":1,"PercentNegativePattern":1,"NegativeInfinitySymbol":"负无穷大","NegativeSign":"-","NumberDecimalDigits":2,"NumberDecimalSeparator":".","NumberGroupSeparator":",","CurrencyPositivePattern":0,"PositiveInfinitySymbol":"正无穷大","PositiveSign":"+","PercentDecimalDigits":2,"PercentDecimalSeparator":".","PercentGroupSeparator":",","PercentSymbol":"%","PerMilleSymbol":"‰","NativeDigits":["0","1","2","3","4","5","6","7","8","9"],"DigitSubstitution":1},"dateTimeFormat":{"AMDesignator":"上午","Calendar":{"MinSupportedDateTime":"\/Date(-62135596800000)\/","MaxSupportedDateTime":"\/Date(253402271999999)\/","AlgorithmType":1,"CalendarType":1,"Eras":[1],"TwoDigitYearMax":2029,"IsReadOnly":true},"DateSeparator":"-","FirstDayOfWeek":0,"CalendarWeekRule":0,"FullDateTimePattern":"yyyy\u0027年\u0027M\u0027月\u0027d\u0027日\u0027 H:mm:ss","LongDatePattern":"yyyy\u0027年\u0027M\u0027月\u0027d\u0027日\u0027","LongTimePattern":"H:mm:ss","MonthDayPattern":"M\u0027月\u0027d\u0027日\u0027","PMDesignator":"下午","RFC1123Pattern":"ddd, dd MMM yyyy HH\u0027:\u0027mm\u0027:\u0027ss \u0027GMT\u0027","ShortDatePattern":"yyyy-M-d","ShortTimePattern":"H:mm","SortableDateTimePattern":"yyyy\u0027-\u0027MM\u0027-\u0027dd\u0027T\u0027HH\u0027:\u0027mm\u0027:\u0027ss","TimeSeparator":":","UniversalSortableDateTimePattern":"yyyy\u0027-\u0027MM\u0027-\u0027dd HH\u0027:\u0027mm\u0027:\u0027ss\u0027Z\u0027","YearMonthPattern":"yyyy\u0027年\u0027M\u0027月\u0027","AbbreviatedDayNames":["日","一","二","三","四","五","六"],"ShortestDayNames":["日","一","二","三","四","五","六"],"DayNames":["星期日","星期一","星期二","星期三","星期四","星期五","星期六"],"AbbreviatedMonthNames":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月",""],"MonthNames":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月",""],"IsReadOnly":true,"NativeCalendarName":"公历","AbbreviatedMonthGenitiveNames":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月",""],"MonthGenitiveNames":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月",""]}}';//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=9nXCJuiY9-CfZEwI0PF0C9EFA8xIRb2PaRq0ZtDCIFukjQ6By0H218qjdU0a9_d70&amp;t=635120972148125000" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIDHvG5ECt8bKah4Z4SyvTSznEtkfS5Ti84gjxB8zji0w2&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrKnQiQd_YzBViRD4jCDC6pCBxUUdLbM0i-JPpE0P9BXlg2&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrK5j279QYveRR9YOLAIGAGiqxY2awhzFlnctWRQIVF3f6uUV3yU-6juY1i1s4KYslg1&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIg0DbH2bMyE_dC0iAgHQhKNSi4EG-vgXV32o9HTAqzdcDQRi8MTvv6JoSjrf4EztM1&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIg0DbH2bMyE_dC0iAgHQhK6Eoodk37jCwrncx4xlmKyN3jHP5N3eZ_7BUtJ3uPzxA1&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrI5tgyV3RJMHPSOTZG0Olb0QvUx68YBKtD4Y9M7iwNGAQ2&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrJ7JJf_UvTKC3TwKSgE6Bq828hefq2-TzP_E4_Xn-AUOQ2&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrJ7JJf_UvTKC3TwKSgE6Bq80RU-NUxGOV6MJG2PObaScZggs8LF3OxYraqmj1aF5s41&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIj0TWgP3LO1Ok6iFbBTch91oxorF0tgPuwrDVid3f5QKAOZdfzjzea15JaPSrQoU41&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIKQX7wktsutrVYrC-wRNc3dDwStdKIm0I5pQncUUxyRg2&amp;t=635120972147812500" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4tGPi4ms_7JnthTM0bAz2x3uPm4_WxWOerZuvlMTMrIJHsiWXfzU2MJcBX_710oyg-6_DEX5y3INDg-eXTEGht6eQWhg654vJcfsFNjy9Jk1&amp;t=635120972147812500" type="text/javascript"></script>
+    
+    <div>
+        
+
+    <script language="javascript" type="text/javascript">
+
+    function clearwhere()
+    {
+    var vartext=document.getElementById("ctl00_ContentPlaceHolder1_txtCardId");
+    vartext.value='';
+//    
+    vartext=document.getElementById("ctl00_ContentPlaceHolder1_txtStationName");
+    vartext.value='';
+    vartext=document.getElementById("ctl00_ContentPlaceHolder1_txtCarCode");
+    vartext.value='';
+    vartext=document.getElementById("ctl00_ContentPlaceHolder1_txtDate1");
+    vartext.value='';
+    vartext=document.getElementById("ctl00_ContentPlaceHolder1_txtDate2");
+    vartext.value='';
+    vartext=document.getElementById("ctl00_ContentPlaceHolder1_ddlLevel");
+    vartext.value='';
+    }
+    function search()
+    {
+    var vartext1=document.getElementById("ctl00_ContentPlaceHolder1_txtDate1");    
+    var vartext2=document.getElementById("ctl00_ContentPlaceHolder1_txtDate2");
+    if(vartext1.value!='' && vartext2.value!='')
+    {
+  
+   
+    if(vartext2.value<vartext1.value)
+    {
+    alert('消费时间的起始日期不可大于结束日期!')
+    return false;
+    }
+   
+    }    
+  
+    if(vartext1.value > '2017-11-29')
+    {
+    alert("消费时间的起始日期不可大于当前日期!");
+    return false;
+    }
+    
+    if(vartext2.value > '2017-11-29')
+    {
+    alert("消费时间的结束日期不可大于当前日期!");
+    return false;
+    }
+    return true;
+    }
+    
+    </script>
+
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 98%">
+        <tr>
+            <td colspan="12" style="height: 4px; font-size: 1px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" style="height: 30px; font-size: large;" align="left">
+                <img alt="" src="images/consumeinfotitle.gif" style="border: 0;" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" style="background: url(images/dotline.gif) repeat-x; font-size: 1px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" style="height: 4px; font-size: 1px;">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 98%; background-color: #f9fff5;"
+        class="table-all">
+        <tr>
+            <td style="width: 1%; height: 6px;">
+            </td>
+            <td style="width: 9%;">
+            </td>
+            <td style="width: 1%;">
+            </td>
+            <td style="width: 22%;">
+            </td>
+            <td style="">
+            </td>
+            <td style="width: 9%;">
+            </td>
+            <td style="width: 1%;">
+            </td>
+            <td style="width: 23%;">
+            </td>
+            <td style="">
+            </td>
+            <td style="width: 9%;">
+            </td>
+            <td style="width: 1%;">
+            </td>
+            <td style="width: 23%;">
+            </td>
+            <td style="width: 1%;">
+            </td>
+        </tr>
+        <tr>
+            <td style="">
+            
+            </td>
+            <td style="">
+             
+            </td>
+            <td style="">
+            
+            </td>
+            <td style="" COLSPAN = "6">
+             
+            </td>
+            
+            <td colspan="3" style="text-align: right;">
+                <table cellpadding="0" cellspacing="0" style="width: 100%; font-size: 4px;">
+                    <tr>
+                        <td style="text-align: right; width: 100%; vertical-align: text-bottom;">
+                            <div id="ctl00_ContentPlaceHolder1_updatepannel1">
+	
+                                    <input type="submit" name="ctl00$ContentPlaceHolder1$btnSearch" value="查询" onclick="return search();WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$ContentPlaceHolder1$btnSearch&quot;, &quot;&quot;, true, &quot;SaveMain&quot;, &quot;&quot;, false, false))" id="ctl00_ContentPlaceHolder1_btnSearch" class="button-normal" />&nbsp;
+                                    <input type="submit" name="ctl00$ContentPlaceHolder1$btnReset" value="重置" onclick="clearwhere();return false;" id="ctl00_ContentPlaceHolder1_btnReset" class="button-normal" />&nbsp;&nbsp;
+                                
+</div>
+                        </td>
+                        <td style="text-align: right; vertical-align: text-bottom;">
+                            <input type="submit" name="ctl00$ContentPlaceHolder1$btnexcel" value="导出" id="ctl00_ContentPlaceHolder1_btnexcel" class="button-normal" />&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 4px;">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="">
+            </td>
+            <td style="text-align: right; vertical-align: middle;">
+                <span style="font-size: 10pt">加油卡号</span>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: left; vertical-align: middle;">
+                <input name="ctl00$ContentPlaceHolder1$txtCardId" type="text" maxlength="32" id="ctl00_ContentPlaceHolder1_txtCardId" class="text-input" />
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: right; vertical-align: middle;">
+                
+                <span style="font-size: 10pt">油站名称</span>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: left; vertical-align: middle;">
+                
+                <input name="ctl00$ContentPlaceHolder1$txtStationName" type="text" maxlength="32" id="ctl00_ContentPlaceHolder1_txtStationName" class="text-input" />
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: right; vertical-align: middle;">
+                <span style="font-size: 10pt">车辆牌号</span>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: left; vertical-align: middle;">
+                <input name="ctl00$ContentPlaceHolder1$txtCarCode" type="text" maxlength="16" id="ctl00_ContentPlaceHolder1_txtCarCode" class="text-input" />
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 4px;">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+           
+            <td style="text-align: right; vertical-align: middle; display:none;">
+             <span style="font-size: 10pt">日期类型</span>
+            </td>
+            <td style="text-align: left; vertical-align: middle; display:none;">
+                <select name="ctl00$ContentPlaceHolder1$ddlDateType" id="ctl00_ContentPlaceHolder1_ddlDateType">
+	<option selected="selected" value="1">自然日期</option>
+	<option value="2">营业日期</option>
+
+</select></td>
+            <td style="">
+            </td>
+            <td style="text-align: right; vertical-align: middle;">
+                <span style="font-size: 10pt">消费日期</span>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: left; vertical-align: middle;">
+            <table cellpadding="0" cellspacing="0" style="width:86%;">
+            <tr>
+            <td style="width:82%;">
+            <input name="ctl00$ContentPlaceHolder1$txtDate1" type="text" value="2017-11-01" id="ctl00_ContentPlaceHolder1_txtDate1" class="text-input" />
+            
+                <input type="hidden" name="ctl00$ContentPlaceHolder1$MaskedEditExtender1_ClientState" id="ctl00_ContentPlaceHolder1_MaskedEditExtender1_ClientState" />
+                
+                
+            </td>
+            <td style="width:18%; text-align:right; vertical-align:middle;">
+            <input type="image" name="ctl00$ContentPlaceHolder1$btnImage1" id="ctl00_ContentPlaceHolder1_btnImage1" title="单击选择日期" src="images/Calendar_scheduleHS.png" onclick="javascript:return false;" border="0" />
+            
+            </td>
+            </tr>
+            </table>
+                
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <span style="font-size: 10pt">至</span>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: left; vertical-align: middle;">
+            <table cellpadding="0" cellspacing="0" style="width:86%;">
+            <tr>
+            <td style="width:82%;">
+                <input name="ctl00$ContentPlaceHolder1$txtDate2" type="text" value="2017-11-22" id="ctl00_ContentPlaceHolder1_txtDate2" class="text-input" />
+                
+                
+                <input type="hidden" name="ctl00$ContentPlaceHolder1$MaskedEditExtender2_ClientState" id="ctl00_ContentPlaceHolder1_MaskedEditExtender2_ClientState" />
+                
+                
+                </td>
+                <td style="width:18%; text-align:right; vertical-align:middle;">
+                <input type="image" name="ctl00$ContentPlaceHolder1$btnImage2" id="ctl00_ContentPlaceHolder1_btnImage2" title="单击选择日期" src="images/Calendar_scheduleHS.png" onclick="javascript:return false;" border="0" />
+                </td>
+            </tr>
+            </table>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: right; vertical-align: middle;">
+             <span style="font-size: 10pt">组织机构</span>
+            </td>
+            <td style="">
+            </td>
+            <td style="text-align: left; vertical-align: middle;">
+            <div id="ctl00_ContentPlaceHolder1_ddlupdatepannel">
+	
+            
+                <select name="ctl00$ContentPlaceHolder1$ddlLevel" id="ctl00_ContentPlaceHolder1_ddlLevel">
+		<option value=""></option>
+
+	</select>
+</div>
+            </td>
+            
+        </tr>
+        <tr>
+            <td style="height: 4px;">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td style="">
+            </td>
+             <td style="text-align: right; vertical-align: middle;">
+             <span style="font-size: 10pt">班次</span>
+             </td>
+            <td style="">
+            </td>
+            <td style="">
+                <select name="ctl00$ContentPlaceHolder1$ddlShift" id="ctl00_ContentPlaceHolder1_ddlShift">
+	<option selected="selected" value="0">所有班次</option>
+	<option value="1">班次 1 </option>
+	<option value="2">班次 2 </option>
+	<option value="3">班次 3 </option>
+
+</select></td>
+            <td style="">
+            </td>
+            
+            <td style="">
+            </td>
+            
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 8px;">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="">
+            </td>
+            <td colspan="7" style="text-align: left; vertical-align: middle;">
+                <div id="ctl00_ContentPlaceHolder1_UpdatePanel3">
+	
+                        <span id="ctl00_ContentPlaceHolder1_lblamount"><font size="2"> 消费金额:￥39,848.04，折后金额:￥37,202.99，柴油销量:33.030升，汽油销量:5,814.018升</font></span>
+                    
+</div>
+            </td>
+            <td style="text-align: right; vertical-align: middle;" colspan="4">
+                <div id="ctl00_ContentPlaceHolder1_updatepannel2">
+	
+                        <a id="ctl00_ContentPlaceHolder1_btnfirst" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$btnfirst','')" style="font-size: 10pt;
+                            text-decoration: none"><font color="Black">首页</font></a>&nbsp;
+                        <a id="ctl00_ContentPlaceHolder1_btnpre" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$btnpre','')" style="font-size: 10pt;
+                            text-decoration: none"><font color="Black">上页</font></a>&nbsp;
+                        <a id="ctl00_ContentPlaceHolder1_btnnext" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$btnnext','')" style="font-size: 10pt;
+                            text-decoration: none"><font color="Black">下页</font></a>&nbsp;
+                        <a id="ctl00_ContentPlaceHolder1_btnlast" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$btnlast','')" style="font-size: 10pt;
+                            text-decoration: none"><font color="Black">尾页</font></a>&nbsp;
+                    
+</div>
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 4px;">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+            </td>
+            <td colspan="11">
+                <div id="tbdiv" style="width: 100%; height: 360px; overflow-x: auto; overflow-y: none;
+                    background-color: #f9fff5;">
+                    <div id="ctl00_ContentPlaceHolder1_updatepannel6">
+	
+                            <table id="ctl00_ContentPlaceHolder1_tbNews" class="table-list" cellspacing="0" cellpadding="0" border="0" width="100%" style="">
+		<tr class="listtitleCss" style="Font-Names:宋体;">
+			<td align="center"><font size="2"><span>状态</span></font></td><td align="center"><font size="2"><span>主账号</span></font></td><td align="center"><font size="2"><span>加油卡号</span></font></td><td align="center"><font size="2"><span>油站名称</span></font></td><td align="center"><font size="2"><span>消费项目</span></font></td><td align="center"><font size="2"><span>油站售价</span></font></td><td align="center"><font size="2"><span>折后价</span></font></td><td align="center"><font size="2"><span>消费金额</span></font></td><td align="center"><font size="2"><span>折后金额</span></font></td><td align="center"><font size="2"><span>消费数量</span></font></td><td align="center"><font size="2"><span>车辆牌号</span></font></td><td align="center"><font size="2"><span>消费时间</span></font></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004242181</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州大湖溪</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>205.00</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>187.89</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>31.110</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LA195P</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-13 16:04:40</span></td>
+		</tr><tr class="tablelist1">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004222206</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州大湖溪</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>205.34</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>188.20</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>31.160</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LNQ577</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-13 15:01:03</span></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004164766</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州大石湖</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>98#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>7.70</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>7.15</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>400.02</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>371.45</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>51.950</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤L00926</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-13 13:29:24</span></td>
+		</tr><tr class="tablelist1">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004397096</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州大湖溪</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>95#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>7.14</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>214.20</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>197.70</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>30.000</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LHX868</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-13 10:42:24</span></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004278654</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州大石湖</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.19</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>225.01</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>219.56</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>36.350</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LNK916</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-13 06:18:21</span></td>
+		</tr><tr class="tablelist1">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004278562</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠东南湖</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.09</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>200.00</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>198.36</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>32.840</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LME673</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 21:41:33</span></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004184016</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州阿科江北</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.19</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>209.22</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>204.15</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>33.800</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LKT021</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 20:51:47</span></td>
+		</tr><tr class="tablelist1">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004278623</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠阳沙田南</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>100.00</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>91.66</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>15.170</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤L31Z66</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 20:45:20</span></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004190529</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州江南</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>95#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>7.14</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>300.02</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>276.91</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>42.020</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LKN387</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 20:37:00</span></td>
+		</tr><tr class="tablelist1">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004209191</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠阳白云</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>200.00</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>183.31</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>30.350</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤L063A9</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 14:37:35</span></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004218216</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州大湖溪</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>95#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>7.14</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>418.19</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>385.98</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>58.570</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LD068H</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 11:49:55</span></td>
+		</tr><tr class="tablelist1">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004242198</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠阳白云</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>92#汽油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.59</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>6.04</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>242.18</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>221.97</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>36.750</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LB415Z</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 10:34:12</span></td>
+		</tr><tr class="tablelist2">
+			<td align="center" bgcolor="" width="70" style="padding-left:5px;padding-right:5px;"><span>正常</span></td><td align="center" bgcolor="" width="50" style="padding-left:5px;padding-right:5px;"><span>50042742</span></td><td align="center" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>9980000000004184016</span></td><td align="left" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>惠州阿科江北</span></td><td align="left" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>0#柴油(V)</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>6.19</span></td><td align="right" bgcolor="" width="80" style="padding-left:5px;padding-right:5px;"><span>5.64</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>204.46</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>186.29</span></td><td align="right" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>33.030</span></td><td align="center" bgcolor="" width="100" style="padding-left:5px;padding-right:5px;"><span>粤LKT021</span></td><td align="center" bgcolor="" width="200" style="padding-left:5px;padding-right:5px;"><span>2017-11-12 09:43:37</span></td>
+		</tr>
+	</table>
+                        
+</div>
+                </div>
+            </td>
+            <td>
+            </td>
+        </tr>
+        
+        <tr>
+            <td style="height: 4px;">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="">
+            </td>
+            <td colspan="7" style="text-align: left; vertical-align: middle;">
+                <div id="ctl00_ContentPlaceHolder1_updatepannel10">
+	
+                        <span id="ctl00_ContentPlaceHolder1_lblinfo"><font size="2"> 共查到消费明细信息168条，分13页显示，当前为第6页</font></span>
+                    
+</div>
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 6px; font-size: 1px;">
+                &nbsp;
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+            <td style="">
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td style="font-size: 1px; height: 6px;">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <table width="98%" cellspacing="0" cellpadding="2" class="table-all" style="background-color: #f9fff5;">
+        <tr>
+            <td colspan="3" style="font-size: 1px; height: 4px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td valign="middle" align="left">
+                <img alt="" src="images/remark.gif" />温馨提示：</td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td align="left">
+                1.此页面为查询登陆帐户下所有的消费信息。
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td align="left">
+                2.可输入查询条件查找您好需要的消费信息，点击导出保存为EXCEL表格。
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td align="left">
+                3.可选择一个组织机构查得此机构与其下属机构的消费信息。
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="font-size: 1px; height: 4px;">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+
+    <script language="javascript" type="text/javascript"> 
+    <!--  
+    var strAppName= navigator.appName.substring(0,5).toLowerCase();    
+    if(strAppName=='micro'){
+    var iesearch=/MSIE/;
+    var ieversion=navigator.appVersion;
+    var versionindex=ieversion.search(iesearch);    
+    ieversion=Number(ieversion.substring(versionindex+5,versionindex+8));  
+    if(ieversion>6)
+    {
+   $get('tbdiv').style['height']='381px';      
+    }      
+     
+    } else if(strAppName == 'netsc')
+    {
+      $get('tbdiv').style['height']='380px';      
+     }
+     else
+     {
+     $get('tbdiv').style['height']='380px';      
+     }
+     //-->
+    </script>
+
+
+    </div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.initialize();
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.MaskedEditBehavior, {"ClientStateFieldID":"ctl00_ContentPlaceHolder1_MaskedEditExtender1_ClientState","CultureAMPMPlaceholder":"上午;下午","CultureCurrencySymbolPlaceholder":"￥","CultureDateFormat":"YMD","CultureDatePlaceholder":"-","CultureDecimalPlaceholder":".","CultureThousandsPlaceholder":",","CultureTimePlaceholder":":","ErrorTooltipEnabled":true,"Mask":"9999/99/99","MaskType":1,"id":"ctl00_ContentPlaceHolder1_MaskedEditExtender1"}, null, null, $get("ctl00_ContentPlaceHolder1_txtDate1"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.CalendarBehavior, {"button":$get("ctl00_ContentPlaceHolder1_btnImage1"),"format":"yyyy-MM-dd","id":"ctl00_ContentPlaceHolder1_CalendarExtender1"}, null, null, $get("ctl00_ContentPlaceHolder1_txtDate1"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.MaskedEditBehavior, {"ClientStateFieldID":"ctl00_ContentPlaceHolder1_MaskedEditExtender2_ClientState","CultureAMPMPlaceholder":"上午;下午","CultureCurrencySymbolPlaceholder":"￥","CultureDateFormat":"YMD","CultureDatePlaceholder":"-","CultureDecimalPlaceholder":".","CultureThousandsPlaceholder":",","CultureTimePlaceholder":":","ErrorTooltipEnabled":true,"Mask":"9999/99/99","MaskType":1,"id":"ctl00_ContentPlaceHolder1_MaskedEditExtender2"}, null, null, $get("ctl00_ContentPlaceHolder1_txtDate2"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.CalendarBehavior, {"button":$get("ctl00_ContentPlaceHolder1_btnImage2"),"format":"yyyy-MM-dd","id":"ctl00_ContentPlaceHolder1_CalendarExtender2"}, null, null, $get("ctl00_ContentPlaceHolder1_txtDate2"));
+});
+//]]>
+</script>
+</form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>全国法院失信被执行人名单信息公布与查询</title>
+<link href="/static/style/style.css" type="text/css" rel="stylesheet" media="screen, projection" />
+<script language="javascript" type="text/javascript" src="/static/javascript/jquery-latest.js"></script>
+<script language="javascript" type="text/javascript" src="/static/javascript/search.js"></script>
+<script type="text/javascript" type="text/javascript" src="/static/javascript/visit.js"></script>
+<script>
+var contextPath = '';
+var totalPage = 1;
+</script>
+</head>
+<body>
+	<div style="padding: 14px 60px;" id="ResultlistBlock">
+		<h4 style="text-align: left; padding: 8px; margin: 0;">
+			对<span style="color: red; padding: 4px;">"无锡市江南容器成套有限公司"</span>的查询结果：
+		</h4>
+		<table width="100%" border="0" align="center" cellpadding="3"
+			cellspacing="0" class="Resultlist" id="Resultlist">
+			<tbody>
+				<tr>
+					<th width="30" align="center">序号</th>
+					<th nowrap="nowrap" align="center">被执行人姓名/名称</th>
+					<th width="120" align="center">立案时间</th>
+					<th nowrap="nowrap" align="center">案号</th>
+<!-- 					<th width="60" align="center">关注</th> -->
+					<th width="60" align="center">查看</th>
+				</tr>
+
+				
+				<tr style="height:28px;">
+					<td align="center">1</td>
+					<td nowrap="nowrap" align="left"><a title="无锡市江南容器成套有限公司">无锡市江南容器成套有限公司</a></td>
+					<td align="center">2017年10月17日</td>
+					<td nowrap="nowrap" align="left">(2017)苏0211执1874号</td>
+
+					<td align="center">[<a href="javascript:void(0);" class="View" id="701358333">查看</a>]
+					</td>
+				</tr>
+				
+			</tbody>
+		</table>
+		<div align="right">
+			
+			
+				首页 
+				上一页 
+			
+			
+			
+				下一页
+				尾页
+			
+			
+			<input onclick="jumpTo()" value="到" type="button" /> <input id="pagenum" name="pagenum" maxlength="6" value="" size="4" type="text" /> 页 1/1 共1条
+		</div>
+	</div>
+	<form id="searchForm" action="/findDisNew" method="post">
+		<input type="hidden" id="currentPage" name="currentPage" value="1"/>
+		<input type="hidden" id="pName" name="pName" value="无锡市江南容器成套有限公司"/>
+        <input type="hidden" id="pCardNum" name="pCardNum" value="13635566-0"/>
+        <input type="hidden" id="pProvince" name="pProvince" value="0"/>
+        <input type="hidden" id="pCode" name="pCode" />
+        <input type="hidden" id="captchaId" name="captchaId" value="e71181a1c1404059a353cd15d1a8ffbc"/>
+	</form>				
+</body>
+</html>
