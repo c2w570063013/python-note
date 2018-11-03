@@ -65,7 +65,7 @@ def scrape(keyword):
 
 
 def record_to_log():
-    
+
     pass
 
 
