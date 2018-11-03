@@ -26,7 +26,7 @@ def parse_excel(file_path):
             # some special string will affect the search result, so we remove them
             process_val = re.sub('Co.{1,4}Ltd.', '', cell_value, flags=re.IGNORECASE)
             print('start scrap company:' + process_val)
-            process_res = scrape(process_val.strip())
+            process_res = scrape(process_val.strip(), file_path)
             if process_res is False:
                 continue
             sheet.cell(row=i, column=max_column + 1).value = process_res['email']
@@ -40,11 +40,11 @@ def parse_excel(file_path):
         print('whoops, error happen! process file name:' + file_path + '; error:' + str(e), exc_type, f_name,
               exc_tb.tb_lineno)
         record_to_log('whoops, error happen! process file name:' + file_path + '; error:' + str(e) + ' ;type:' + str(
-            exc_type) + '; file:' + str(f_name) + '; line:' + str(exc_tb.tb_lineno), 'error.log')
+            exc_type) + '; file:' + str(f_name) + '; line:' + str(exc_tb.tb_lineno), 'error_' + file_path + '.log')
         pass
 
 
-def scrape(keyword):
+def scrape(keyword, file_path):
     try:
         url = 'https://exhibitors.electronica.de/onlinecatalog/2018/Search_result/'
         headers = {
@@ -83,7 +83,7 @@ def scrape(keyword):
         target = soup.find_all('a', {"class": 'exd_navfont'})
         if len(target) == 0:
             print('keyword:' + keyword + ' empty')
-            record_to_log('keyword:' + keyword + '; result:empty', 'empty.log')
+            record_to_log('keyword:' + keyword + '; result:empty', 'empty_' + file_path + '.log')
             return False
 
         res_list = {}
@@ -101,13 +101,13 @@ def scrape(keyword):
             res_list['domain'] = ''
         # remove space from domain
         res_list['domain'] = res_list['domain'].strip()
-        record_to_log('keyword:' + keyword + '; result:' + json.dumps(res_list), 'success.log')
+        record_to_log('keyword:' + keyword + '; result:' + json.dumps(res_list), 'success_' + file_path + '.log')
         return res_list
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(e, exc_type, fname, exc_tb.tb_lineno)
-        record_to_log('keyword:' + keyword + '; error:' + str(e), 'error.log')
+        record_to_log('keyword:' + keyword + '; error:' + str(e), 'error_' + file_path + '.log')
         return False
 
 
