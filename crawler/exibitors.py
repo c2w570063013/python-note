@@ -23,6 +23,7 @@ def parse_excel(file_path):
         # start to iterate the excel and search for the info
         for i in range(start_row, max_row + 1):
             cell_value = sheet.cell(row=i, column=start_col).value.strip()
+            # some special string will affect the search result, so we remove them
             process_val = re.sub('Co.{1,4}Ltd.', '', cell_value, flags=re.IGNORECASE)
             print('start scrap company:' + process_val)
             process_res = scrape(process_val.strip())
@@ -32,12 +33,15 @@ def parse_excel(file_path):
             sheet.cell(row=i, column=max_column + 2).value = process_res['domain']
         # save the excel
         wb.save(file_path)
-        print('--------------done--------------')
 
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print('whoops, error happen! error:' + str(e), exc_type, fname, exc_tb.tb_lineno)
+        f_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print('whoops, error happen! process file name:' + file_path + '; error:' + str(e), exc_type, f_name,
+              exc_tb.tb_lineno)
+        record_to_log('whoops, error happen! process file name:' + file_path + '; error:' + str(e) + ' ;type:' + str(
+            exc_type) + '; file:' + str(f_name) + '; line:' + str(exc_tb.tb_lineno), 'error.log')
+        pass
 
 
 def scrape(keyword):
@@ -95,6 +99,8 @@ def scrape(keyword):
             res_list['email'] = ''
         if 'domain' not in res_list:
             res_list['domain'] = ''
+        # remove space from domain
+        res_list['domain'] = res_list['domain'].strip()
         record_to_log('keyword:' + keyword + '; result:' + json.dumps(res_list), 'success.log')
         return res_list
     except Exception as e:
@@ -111,5 +117,11 @@ def record_to_log(content, file='log.txt'):
     f.write('[' + time + '] ' + content + "\n")
 
 
-file_ = '(Automotive).xlsx'
-parse_excel(file_)
+if __name__ == "__main__":
+    files = ['(electronica experience).xlsx', '(Embedded).xlsx', '(New Exhibitor).xlsx', 'SEMICON Europa.xlsx']
+    if len(sys.argv) > 1:
+        files = sys.argv[1:]
+    for file_ in files:
+        print('-----------------start process ' + file_ + ' -----------------')
+        parse_excel(file_)
+        print('-----------------process ' + file_ + ' done!-----------------')
