@@ -6,6 +6,19 @@ import re
 import sys
 import os
 import json
+from termcolor import colored
+
+headers = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Cache-Control": "max-age=0",
+    "Connection": "keep-alive",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Host": "exhibitors.electronica.de",
+    "Origin": "https://exhibitors.electronica.de",
+    "Referer": "https://exhibitors.electronica.de/onlinecatalog/2018/Search_result/",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+}
 
 
 def parse_excel(file_path):
@@ -25,20 +38,21 @@ def parse_excel(file_path):
             cell_value = sheet.cell(row=i, column=start_col).value.strip()
             # some special string will affect the search result, so we remove them
             process_val = re.sub('Co.{1,4}Ltd.', '', cell_value, flags=re.IGNORECASE)
-            print('start scrap company:' + process_val)
             process_res = scrape(process_val.strip(), file_path)
-            if process_res is False:
+            if process_res is None:
+                print_r('company:' + process_val.strip() + ' empty', 'warning')
+                record_to_log('keyword:' + process_val + '; result:empty', 'empty_' + file_path + '.log')
                 continue
+            print_r('company:' + process_val + ' found')
             sheet.cell(row=i, column=max_column + 1).value = process_res['email']
             sheet.cell(row=i, column=max_column + 2).value = process_res['domain']
-        # save the excel
+        # save to excel
         wb.save(file_path)
 
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         f_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print('whoops, error happen! process file name:' + file_path + '; error:' + str(e), exc_type, f_name,
-              exc_tb.tb_lineno)
+        print_r('whoops, error happen! file name:' + file_path, 'error')
         record_to_log('whoops, error happen! process file name:' + file_path + '; error:' + str(e) + ' ;type:' + str(
             exc_type) + '; file:' + str(f_name) + '; line:' + str(exc_tb.tb_lineno), 'error_' + file_path + '.log')
         pass
@@ -47,17 +61,6 @@ def parse_excel(file_path):
 def scrape(keyword, file_path):
     try:
         url = 'https://exhibitors.electronica.de/onlinecatalog/2018/Search_result/'
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Cache-Control": "max-age=0",
-            "Connection": "keep-alive",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Host": "exhibitors.electronica.de",
-            "Origin": "https://exhibitors.electronica.de",
-            "Referer": "https://exhibitors.electronica.de/onlinecatalog/2018/Search_result/",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
-        }
         params = {
             "LNG": 2,
             "nv": 1000,
@@ -82,9 +85,44 @@ def scrape(keyword, file_path):
         # find the target element
         target = soup.find_all('a', {"class": 'exd_navfont'})
         if len(target) == 0:
-            print('keyword:' + keyword + ' empty')
-            record_to_log('keyword:' + keyword + '; result:empty', 'empty_' + file_path + '.log')
-            return False
+            # check if exists multi results
+            target2 = soup.find_all('a', {'class': 'ex_font'})
+            # print(target2[0]['href'])
+            if len(target2) == 0:
+                return None
+            # we just use the first links to search for the info, not consider the rest of results
+            url2 = target2[0]['href'].strip()
+            return scrape_2(url2, keyword, file_path)
+        return extract_data(soup, keyword, file_path)
+    except Exception as e:
+        print_r(str(e) + ' ;keyword:' + keyword + ' ;file path:' + file_path, 'error')
+        record_to_log('keyword:' + keyword + '; error:' + str(e), 'error_' + file_path + '.log')
+
+
+def scrape_2(url, keyword, file_path):
+    try:
+        res = requests.get(url, headers=headers, timeout=15)
+        if res.status_code != 200:
+            raise Exception('network error!', 'status_code' + str(res.status_code))
+        soup = BeautifulSoup(res.text, 'html.parser')
+        return extract_data(soup, keyword, file_path)
+    except Exception as e:
+        record_to_log('keyword:' + keyword + '; error:' + str(e), 'error_' + file_path + '.log')
+
+
+def print_r(words, level='success', keyword=None, file_path=None):
+    color = 'green'
+    if level == 'warning':
+        color = 'yellow'
+    if level == 'error':
+        color = 'red'
+    print(colored(level + ': ' + words, color))
+
+
+def extract_data(soup, keyword, file_path):
+    try:
+        # find the target element
+        target = soup.find_all('a', {"class": 'exd_navfont'})
 
         res_list = {}
         for a in target:
@@ -104,11 +142,8 @@ def scrape(keyword, file_path):
         record_to_log('keyword:' + keyword + '; result:' + json.dumps(res_list), 'success_' + file_path + '.log')
         return res_list
     except Exception as e:
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(e, exc_type, fname, exc_tb.tb_lineno)
+        print_r(str(e) + ' ;keyword:' + keyword + ' ;file path:' + file_path, 'error')
         record_to_log('keyword:' + keyword + '; error:' + str(e), 'error_' + file_path + '.log')
-        return False
 
 
 def record_to_log(content, file='log.txt'):
@@ -118,10 +153,12 @@ def record_to_log(content, file='log.txt'):
 
 
 if __name__ == "__main__":
-    files = ['(electronica experience).xlsx', '(Embedded).xlsx', '(New Exhibitor).xlsx', 'SEMICON Europa.xlsx']
+    files = ['excel/(electronica experience).xlsx', 'excel/(Embedded).xlsx', 'excel/(New Exhibitor).xlsx',
+             'excel/SEMICON Europa.xlsx']
+    # get excel file from terminal args
     if len(sys.argv) > 1:
         files = sys.argv[1:]
     for file_ in files:
-        print('-----------------start process ' + file_ + ' -----------------')
+        print_r('-----------------start process ' + file_ + ' -----------------')
         parse_excel(file_)
-        print('-----------------process ' + file_ + ' done!-----------------')
+        print_r('-----------------process ' + file_ + ' done!-----------------')

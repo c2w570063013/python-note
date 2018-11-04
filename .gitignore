@@ -1,6 +1,6 @@
 error.log
 success.log
 log.txt
-crawler/error.log
-crawler/success.log
-crawler/empty.log
+crawler/error*.log
+crawler/success*.log
+crawler/empty*.log
