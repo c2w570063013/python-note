@@ -38,6 +38,7 @@ def parse_excel(file_path):
             cell_value = sheet.cell(row=i, column=start_col).value.strip()
             # some special string will affect the search result, so we remove them
             process_val = re.sub('Co.{1,4}Ltd.', '', cell_value, flags=re.IGNORECASE)
+            print('start scrape company:' + process_val + '......')
             process_res = scrape(process_val.strip(), file_path)
             if process_res is None:
                 print_r('company:' + process_val.strip() + ' empty', 'warning')
@@ -158,8 +159,7 @@ def record_to_log(content, file='log.txt'):
 
 
 if __name__ == "__main__":
-    files = ['excel/(electronica experience).xlsx', 'excel/(Embedded).xlsx', 'excel/(New Exhibitor).xlsx',
-             'excel/SEMICON Europa.xlsx']
+    files = ['(electronica experience).xlsx', '(Embedded).xlsx', '(New Exhibitor).xlsx', 'SEMICON Europa.xlsx']
     # get excel file from terminal args
     if len(sys.argv) > 1:
         files = sys.argv[1:]
