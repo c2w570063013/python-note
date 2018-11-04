@@ -52,7 +52,7 @@ def parse_excel(file_path):
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         f_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print_r('whoops, error happen! file name:' + file_path, 'error')
+        print_r('whoops, error happen! error:' + str(e), 'error', file_path=file_path)
         record_to_log('whoops, error happen! process file name:' + file_path + '; error:' + str(e) + ' ;type:' + str(
             exc_type) + '; file:' + str(f_name) + '; line:' + str(exc_tb.tb_lineno), 'error_' + file_path + '.log')
         pass
@@ -95,7 +95,7 @@ def scrape(keyword, file_path):
             return scrape_2(url2, keyword, file_path)
         return extract_data(soup, keyword, file_path)
     except Exception as e:
-        print_r(str(e) + ' ;keyword:' + keyword + ' ;file path:' + file_path, 'error')
+        print_r(str(e), 'error', keyword=keyword, file_path=file_path)
         record_to_log('keyword:' + keyword + '; error:' + str(e), 'error_' + file_path + '.log')
 
 
@@ -116,7 +116,12 @@ def print_r(words, level='success', keyword=None, file_path=None):
         color = 'yellow'
     if level == 'error':
         color = 'red'
-    print(colored(level + ': ' + words, color))
+    external_content = ''
+    if keyword is not None:
+        external_content = external_content + ' keyword:' + keyword + ';'
+    if file_path is not None:
+        external_content = external_content + ' file path:' + file_path
+    print(colored(level + ': ' + words + ';' + external_content, color))
 
 
 def extract_data(soup, keyword, file_path):
@@ -142,7 +147,7 @@ def extract_data(soup, keyword, file_path):
         record_to_log('keyword:' + keyword + '; result:' + json.dumps(res_list), 'success_' + file_path + '.log')
         return res_list
     except Exception as e:
-        print_r(str(e) + ' ;keyword:' + keyword + ' ;file path:' + file_path, 'error')
+        print_r(str(e), 'error', keyword=keyword, file_path=file_path)
         record_to_log('keyword:' + keyword + '; error:' + str(e), 'error_' + file_path + '.log')
 
 
