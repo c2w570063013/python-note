@@ -32,6 +32,7 @@ def parse_excel(file_path):
         # first step, add email and domain to the sheet tittle
         sheet.cell(row=start_row - 1, column=max_column + 1).value = 'Email'
         sheet.cell(row=start_row - 1, column=max_column + 2).value = 'Domain'
+        sheet.cell(row=start_row - 1, column=max_column + 3).value = 'Categories'
 
         # start to iterate the excel and search for the info
         for i in range(start_row, max_row + 1):
@@ -47,6 +48,7 @@ def parse_excel(file_path):
             print_r('company:' + process_val + ' found')
             sheet.cell(row=i, column=max_column + 1).value = process_res['email']
             sheet.cell(row=i, column=max_column + 2).value = process_res['domain']
+            sheet.cell(row=i, column=max_column + 3).value = process_res['category']
         # save to excel
         wb.save(file_path)
 
@@ -129,7 +131,10 @@ def extract_data(soup, keyword, file_path):
     try:
         # find the target element
         target = soup.find_all('a', {"class": 'exd_navfont'})
-
+        category = soup.findAll('img', {"class": 'showToolTip'})
+        category_val = ''
+        if len(category) > 1:
+            category_val = str(category[1]['alt'])
         res_list = {}
         for a in target:
             a_val = a.text.strip()
@@ -145,6 +150,7 @@ def extract_data(soup, keyword, file_path):
             res_list['domain'] = ''
         # remove space from domain
         res_list['domain'] = res_list['domain'].strip()
+        res_list['category'] = category_val
         record_to_log('keyword:' + keyword + '; result:' + json.dumps(res_list), 'success_' + file_path + '.log')
         return res_list
     except Exception as e:
@@ -154,12 +160,13 @@ def extract_data(soup, keyword, file_path):
 
 def record_to_log(content, file='log.txt'):
     time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    f = open(file, 'a')
+    f = open(file, 'a', encoding='utf-8')
     f.write('[' + time + '] ' + content + "\n")
 
 
 if __name__ == "__main__":
-    files = ['(electronica experience).xlsx', '(Embedded).xlsx', '(New Exhibitor).xlsx', 'SEMICON Europa.xlsx']
+    # files = ['(electronica experience).xlsx', '(Embedded).xlsx', '(New Exhibitor).xlsx', 'SEMICON Europa.xlsx']
+    files = ['aaaa.xlsx']
     # get excel file from terminal args
     if len(sys.argv) > 1:
         files = sys.argv[1:]
