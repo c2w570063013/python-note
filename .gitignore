@@ -4,3 +4,5 @@ log.txt
 crawler/error*.log
 crawler/success*.log
 crawler/empty*.log
+.idea/
+.DS_Store
