@@ -8,6 +8,7 @@ while True:
     print('scraping ' + info.url)
     s = requests.Session()
     r = s.get(info.url, headers=info.headers).text
+    # r = s.get('https://91mjw.com/video/2654.htm', headers=info.headers).text
     soap = BeautifulSoup(r, 'html5lib')
     info_list = soap.find_all('article', {'class': 'u-movie'})
     # traverse current page for getting videos links
@@ -18,6 +19,7 @@ while True:
         title = video_soap.find('h1', {'class': 'article-title'}).find('a').text.rstrip('在线观看')
         name_el = i.find('h2').text
         name = name_el
+        print('scraping name:' + name)
         season_cn = ''
         if name_el.find(' ') > 0:
             name = name_el[:name_el.find(' ')]
@@ -94,13 +96,7 @@ while True:
             img_name = cover_picture_origin[img_name_offset + 1::]
             cover_picture = img_name
             img_file = requests.get(cover_picture_origin).content
-            # open(info.cover_path + img_name, 'wb').write(img_file)
-        img_list = video_soap.find('p', {'class': 'jietu'})
-        if img_list is not None:
-            for img in img_list.find_all('img'):
-                print(img)
-            exit()
-            # print(img['data-original'])
+            open(info.cover_path + img_name, 'wb').write(img_file)
         plot_introduction = video_soap.find('p', {'class': 'jianjie'}).find('span').text
 
         category = video_soap.find('ul', {'class': 'article-meta'}).find('a').text
@@ -134,8 +130,9 @@ while True:
                           len(li_list), episode_time.lstrip(' '),
                           alias.lstrip(' '), imdb_code.lstrip(' '), score.lstrip(' '), plot_introduction, cover_picture,
                           cover_picture_origin, date_time, date_time)
-            res = cursor.execute(sql_series)
+            cursor.execute(sql_series)
             connection.commit()
+            series_id = cursor.lastrowid
             for li in li_list:
                 name = li.find('span').text
                 e2dk_href = li.select_one("a[href*=ed2k]")
@@ -144,6 +141,22 @@ while True:
                     e2dk = e2dk_href['href']
                 if magnet_href is not None:
                     magnet = magnet_href['href']
+                sql_episode = "insert into tv_episode (tv_series_id, name, e2k, magnet, created_at, updated_at) values (%d, '%s', '%s', '%s', '%s', '%s')" % (
+                    series_id, name, e2dk, magnet, date_time, date_time)
+                cursor.execute(sql_episode)
+                connection.commit()
+
+            img_list = video_soap.find('p', {'class': 'jietu'})
+            if img_list is not None:
+                for img in img_list.find_all('img'):
+                    img_name_offset = img['data-original'].rfind('/')
+                    img_name = img['data-original'][img_name_offset + 1::]
+                    sql_img = "insert into tv_series_img (tv_series_id, link, origin_link, created_at, updated_at) values (%d, '%s', '%s', '%s', '%s')" % (
+                        series_id, img_name, img['data-original'], date_time, date_time)
+                    cursor.execute(sql_img)
+                    connection.commit()
+                    img_file = requests.get(img['data-original']).content
+                    open(info.plot_img_path + img_name, 'wb').write(img_file)
 
     next_page = soap.find('li', {'class': 'next-page'})
     if next_page.find('a') is None:

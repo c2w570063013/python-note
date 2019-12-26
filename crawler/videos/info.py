@@ -26,5 +26,5 @@ def connect_db():
 
 
 # images saved path
-cover_path = '/Users/wayne/code/bit-trade/public/images/covers/'
-plot_img_path = '/Users/wayne/code/bit-trade/public/images/plot_img/'
+cover_path = '/Users/wayne/Pictures/91movies/covers/'
+plot_img_path = '/Users/wayne/Pictures/91movies/plot_img/'
