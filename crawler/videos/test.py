@@ -2,9 +2,24 @@ import requests
 from bs4 import BeautifulSoup
 import info
 from datetime import datetime
+import time
 
 ii = 1
 while True:
+    time.sleep(1)
+    print(ii)
+    try:
+        if ii == 10:
+            raise Exception('what the heck')
+    except Exception as e:
+        print(e)
+        info.logger('dkdkkdkkdkdk' + str(e))
+        pass
+    if ii == 15:
+        break
+    ii += 1
+print('end')
+exit()
 
 while True:
     # print('scraping ' + url)

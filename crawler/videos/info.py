@@ -1,5 +1,7 @@
 import db_config
 import pymysql
+import datetime
+import traceback
 
 main_url = 'https://91mjw.com'
 url = 'https://91mjw.com/all'
@@ -23,6 +25,24 @@ def connect_db():
     except Exception as e:
         print(e)
         exit()
+
+
+def logger(error, if_trace=True, file=None):
+    """
+    write to log
+    :param error:
+    :param if_trace:
+    :param file:
+    :return:
+    """
+    if file is None:
+        file = 'logs/tv-' + str(datetime.date.today()) + '.log'
+    date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(file, 'a') as fo:
+        text = "[" + date + "] " + error + "\n"
+        if if_trace is True:
+            text += traceback.format_exc() + "\n"
+        fo.write(text)
 
 
 # images saved path
