@@ -114,10 +114,10 @@ while True:
         if down_list is not None:
             li_list = down_list.find_all('li')
             date_time = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            sql_series = 'insert into tv_series(title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", %d,"%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
+            sql_series = 'insert into tv_series(title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
                 title, name, str(director), str(scriptwriter), str(cast), category, cat_id[0],
                 tags,
-                str(area), str(language), str(debut_date), str(debut_area), int(season),
+                str(area), str(language), str(debut_date), str(debut_area), str(season),
                 str(season_cn), str(episode_num), len(li_list), str(episode_time), str(alias),
                 str(imdb_code), str(score), plot_introduction, cover_picture, cover_picture_origin,
                 str(date_time),
@@ -133,7 +133,7 @@ while True:
                     e2dk = e2dk_href['href']
                 if magnet_href is not None:
                     magnet = magnet_href['href']
-                sql_episode = "insert into tv_episode (tv_series_id, name, e2k, magnet, created_at, updated_at) values (%d, '%s', '%s', '%s', '%s', '%s')" % (
+                sql_episode = 'insert into tv_episode (tv_series_id, name, e2k, magnet, created_at, updated_at) values(%d, "%s", "%s", "%s", "%s", "%s")' % (
                     series_id, name, e2dk, magnet, date_time, date_time)
                 cursor.execute(sql_episode)
                 connection.commit()
