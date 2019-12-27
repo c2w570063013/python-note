@@ -3,18 +3,20 @@ from bs4 import BeautifulSoup
 import info
 from datetime import datetime
 
+# xxx = "基于约翰·格林(《星运里的错》《纸镇》)所著同名青少年小说，讲述来自佛罗里达州的少年Miles\"Pudge\"Halter(普拉默)在阿拉巴马州一所著名的寄宿学校就读，希望能找到对生活更深刻的看法，但他发现CulverCreekAcademy和他以前的高中没有什么不同，除了一群马上就接纳他的异类。这群人中包括AlaskaYoung(弗劳赛斯)，她善变，不可预测，立刻对Miles产生了吸引力。Alaska还隐藏了一段不愉快的过去，当她意外去世后，Miles和他的朋友们试图弄清楚发生了什么。"
+
+
+url = info.url
 # turn pages
 while True:
-    print('scraping ' + info.url)
+    print('scraping ' + url)
     s = requests.Session()
-    r = s.get(info.url, headers=info.headers).text
-    # r = s.get('https://91mjw.com/video/2654.htm', headers=info.headers).text
+    r = s.get(url, headers=info.headers).text
     soap = BeautifulSoup(r, 'html5lib')
     info_list = soap.find_all('article', {'class': 'u-movie'})
     # traverse current page for getting videos links
     for i in info_list:
         video_page = i.find('a')['href']
-        # html5lib html.parser
         video_soap = BeautifulSoup(s.get(video_page).text, 'html5lib')
         title = video_soap.find('h1', {'class': 'article-title'}).find('a').text.rstrip('在线观看')
         name_el = i.find('h2').text
@@ -53,7 +55,8 @@ while True:
             l_bracket = debut.find('(')
             r_bracket = debut.find(')')
             debut_date = debut
-            if l_bracket != -1:
+            if l_bracket is int and l_bracket > 1:
+                # if int(l_bracket) > 1:
                 debut_date = debut[:l_bracket]
                 debut_area = debut[l_bracket + 1:r_bracket]
         season_el = video_info.find('strong', text='季数:')
@@ -63,7 +66,7 @@ while True:
         episode_num_el = video_info.find('strong', text='集数:')
         episode_num = 0
         if episode_num_el is not None:
-            episode_num = int(episode_num_el.next_sibling)
+            episode_num = episode_num_el.next_sibling
         episode_time_el = video_info.find('strong', text='单集时长:')
         episode_time = ''
         if episode_time_el is not None:
@@ -79,7 +82,7 @@ while True:
         score_el = video_info.find('strong', text='评分:')
         score = ''
         if score_el is not None:
-            score = score_el.next_sibling
+            score = score_el.next_sibling if score_el.next_sibling is not None else ''
         article_tags_div = video_soap.find('div', {'class': 'article-tags'})
         article_tags = article_tags_div.find_all('a')
         tags = ''
@@ -96,8 +99,8 @@ while True:
             img_name = cover_picture_origin[img_name_offset + 1::]
             cover_picture = img_name
             img_file = requests.get(cover_picture_origin).content
-            open(info.cover_path + img_name, 'wb').write(img_file)
-        plot_introduction = video_soap.find('p', {'class': 'jianjie'}).find('span').text
+            # open(info.cover_path + img_name, 'wb').write(img_file)
+        plot_introduction = video_soap.find('p', {'class': 'jianjie'}).find('span').text.replace('"', '\\\"')
 
         category = video_soap.find('ul', {'class': 'article-meta'}).find('a').text
         sql_category_id = "select id from tv_categories where category_name='%s'" % category.rstrip('片')
@@ -111,25 +114,14 @@ while True:
         if down_list is not None:
             li_list = down_list.find_all('li')
             date_time = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            sql_series = "insert into " \
-                         "tv_series " \
-                         "(" \
-                         "title, name, director, scriptwriter, cast, " \
-                         "category, category_id, tags, area, language, debut_date, " \
-                         "debut_area, season, season_cn, episode_num, updated_episode_num, " \
-                         "episode_time, alias, imdb_code, score, plot_introduction, " \
-                         "cover_picture, cover_picture_origin, created_at, updated_at) values (" \
-                         "'%s', '%s', '%s', '%s', '%s'," \
-                         " '%s', %d, '%s', '%s', '%s', '%s', " \
-                         "'%s', %d, '%s', %d, %d, " \
-                         "'%s', '%s', '%s', '%s', '%s'," \
-                         " '%s', '%s', '%s', '%s')" % \
-                         (title, name, director.lstrip(' '), scriptwriter.lstrip(' '), cast.lstrip(' '), category,
-                          cat_id[0], tags, area.lstrip(' '), language.lstrip(' '),
-                          debut_date.lstrip(' '), debut_area.lstrip(' '), int(season), season_cn, int(episode_num),
-                          len(li_list), episode_time.lstrip(' '),
-                          alias.lstrip(' '), imdb_code.lstrip(' '), score.lstrip(' '), plot_introduction, cover_picture,
-                          cover_picture_origin, date_time, date_time)
+            sql_series = 'insert into tv_series(title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", %d,"%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
+                title, name, str(director), str(scriptwriter), str(cast), category, cat_id[0],
+                tags,
+                str(area), str(language), str(debut_date), str(debut_area), int(season),
+                str(season_cn), str(episode_num), len(li_list), str(episode_time), str(alias),
+                str(imdb_code), str(score), plot_introduction, cover_picture, cover_picture_origin,
+                str(date_time),
+                date_time)
             cursor.execute(sql_series)
             connection.commit()
             series_id = cursor.lastrowid
@@ -156,7 +148,7 @@ while True:
                     cursor.execute(sql_img)
                     connection.commit()
                     img_file = requests.get(img['data-original']).content
-                    open(info.plot_img_path + img_name, 'wb').write(img_file)
+                    # open(info.plot_img_path + img_name, 'wb').write(img_file)
 
     next_page = soap.find('li', {'class': 'next-page'})
     if next_page.find('a') is None:
