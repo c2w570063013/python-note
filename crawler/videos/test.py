@@ -4,6 +4,27 @@ import info
 from datetime import datetime
 import time
 
+i = 1
+a = [1, 2, 3]
+while True:
+    time.sleep(1)
+    try:
+        print(i)
+        for ii in a:
+            try:
+                print(str(ii) + ' well')
+                if ii == 2:
+                    raise Exception('what the heck')
+            except Exception as e:
+                print(e)
+        if i == 10:
+            break
+        i += 1
+    except Exception as e:
+        print(e)
+        pass
+
+exit()
 ii = 1
 while True:
     time.sleep(1)
