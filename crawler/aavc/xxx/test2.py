@@ -2,8 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
-store_dir = '/Users/wayne/Movies/xvideos/test1/'
+store_dir = '/Users/wayne/Movies/xvideos/test2/'
 url = 'https://www.jav321.com/star/1031775/1'
+
+
+# url = 'https://www.jav321.com/best_seller/1/2019/1'
+# url = 'https://www.jav321.com/series/79633/1'
 
 
 # url = 'https://www.jav321.com/series/220378/1'
@@ -37,19 +41,30 @@ s.proxies = {
     "https": "http://127.0.0.1:7890"
 }
 
-r = s.get(url).text
-soap = BeautifulSoup(r, 'html.parser')
-info_list = soap.find_all('div', {'class': 'thumbnail'})
-print('downloading......')
-ii = 1
-for i in info_list:
-    video_page = i.find('a')['href']
-    video_soap = BeautifulSoup(s.get('https://www.jav321.com' + video_page).text, 'html.parser')
-    source = video_soap.find('source')
-    if source is not None:
+while True:
+    r = s.get(url).text
+    soap = BeautifulSoup(r, 'html.parser')
+
+    info_list = soap.find_all('div', {'class': 'thumbnail'})
+    print('downloading......')
+    ii = 1
+    for i in info_list:
+        print(ii)
+        ii += 1
+        video_page = i.find('a')['href']
+        print('https://www.jav321.com' + video_page)
+        video_soap = BeautifulSoup(s.get('https://www.jav321.com' + video_page).text, 'html.parser')
+        source = video_soap.find('source')
+        if source is None:
+            print('该视频为长视频或不存在')
+            continue
         r = requests.get(source['src'], allow_redirects=True)
         open(store_dir + random_str() + '.mp4', 'wb').write(r.content)
-    print(ii)
-    ii += 1
+
+    next = soap.find('li', {'class': 'next'})
+    if next is None:
+        break
+    url = 'https://www.jav321.com' + next.find('a')['href']
+    print('next page')
 
 print('finished!!!!!!!')
