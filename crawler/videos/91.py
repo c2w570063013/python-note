@@ -15,6 +15,11 @@ while True:
         # traverse current page for getting videos links
         for i in info_list:
             try:
+                # initial mysql connection
+                connection = info.connect_db()
+                cursor = connection.cursor()
+                date_time = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
                 video_page = i.find('a')['href']
                 video_soap = BeautifulSoup(s.get(video_page).text, 'html5lib')
                 title = video_soap.find('h1', {'class': 'article-title'}).find('a').text.rstrip('在线观看')
@@ -38,6 +43,10 @@ while True:
                 cast = ''
                 if cast_el is not None:
                     cast = cast_el.next_sibling
+                official_site_el = video_info.find('strong', '官方网站:')
+                official_site = ''
+                if official_site_el is not None:
+                    official_site = official_site_el.next_sibling
                 area_el = video_info.find('strong', text='国家/地区:')
                 area = ''
                 if area is not None:
@@ -54,7 +63,7 @@ while True:
                     l_bracket = debut.find('(')
                     r_bracket = debut.find(')')
                     debut_date = debut
-                    if l_bracket is int and l_bracket > 1:
+                    if type(l_bracket) is int and l_bracket > 1:
                         # if int(l_bracket) > 1:
                         debut_date = debut[:l_bracket]
                         debut_area = debut[l_bracket + 1:r_bracket]
@@ -85,7 +94,20 @@ while True:
                 article_tags_div = video_soap.find('div', {'class': 'article-tags'})
                 article_tags = article_tags_div.find_all('a')
                 tags = ''
+                tags_id = []
                 for tag in article_tags:
+                    tag_sql_query = "select id from series_tags where name='%s'" % tag.text
+                    cursor.execute(tag_sql_query)
+                    res = cursor.fetchone()
+                    if res is None:
+                        sql_insert_tag = "insert into series_tags (name, status, created_at, updated_at) values ('%s', %d, '%s', '%s')" % (
+                            tag.text, 1, date_time, date_time)
+                        cursor.execute(sql_insert_tag)
+                        connection.commit()
+                        tags_id.append(cursor.lastrowid)
+                    else:
+                        # tags_id = res[0]
+                        tags_id.append(res[0])
                     tags += tag.text + ';'
                 tags = tags.rstrip(';')
                 cover_picture_div = video_soap.find('div', {'class': 'video_img'})
@@ -103,8 +125,6 @@ while True:
 
                 category = video_soap.find('ul', {'class': 'article-meta'}).find('a').text
                 sql_category_id = "select id from tv_categories where category_name='%s'" % category.rstrip('片')
-                connection = info.connect_db()
-                cursor = connection.cursor()
                 cursor.execute(sql_category_id)
                 cat_id = cursor.fetchone()
 
@@ -112,10 +132,9 @@ while True:
                 down_list = video_soap.find('ul', {'id': 'download-list'})
                 if down_list is not None:
                     li_list = down_list.find_all('li')
-                    date_time = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                    sql_series = 'insert into tv_series(title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
-                        title, name, str(director), str(scriptwriter), str(cast), category, cat_id[0],
-                        tags,
+                    sql_series = 'insert into tv_series(official_site, title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
+                        official_site, title, name, str(director), str(scriptwriter), str(cast),
+                        category, cat_id[0], tags,
                         str(area), str(language), str(debut_date), str(debut_area), str(season),
                         str(season_cn), str(episode_num), len(li_list), str(episode_time), str(alias),
                         str(imdb_code), str(score), plot_introduction, cover_picture, cover_picture_origin,
@@ -124,6 +143,13 @@ while True:
                     cursor.execute(sql_series)
                     connection.commit()
                     series_id = cursor.lastrowid
+
+                    # insert series-tag relationship
+                    for tag_id in tags_id:
+                        tag_relationship_sql = "insert into tags_relationship (tag_id, series_id, created_at, updated_at) values (%d, %d, '%s', '%s')" % (
+                            tag_id, series_id, date_time, date_time)
+                        cursor.execute(tag_relationship_sql)
+                        connection.commit()
                     for li in li_list:
                         name = li.find('span').text
                         e2dk_href = li.select_one("a[href*=ed2k]")
@@ -156,6 +182,6 @@ while True:
             break
         url = next_page.find('a')['href']
     except Exception as e:
-        print('name:' + name + ' url:' + url + ' ' + str(e))
-        info.logger('name:' + name + ' url:' + url + ' ' + str(e))
+        print('name:' + name + ' url:' + video_page + ' ' + str(e))
+        info.logger('name:' + name + "\n url: " + video_page + "\n" + str(e))
         pass

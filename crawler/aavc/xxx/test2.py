@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
-store_dir = '/Users/wayne/Movies/xvideos/test2/'
-url = 'https://www.jav321.com/star/1031775/1'
+store_dir = '/Users/wayne/Movies/xvideos/test3/'
+url = 'http://www.jav321.com/snp/jac/1'
 
 
 # url = 'https://www.jav321.com/best_seller/1/2019/1'
