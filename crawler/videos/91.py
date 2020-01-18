@@ -22,6 +22,13 @@ while True:
 
                 video_page = i.find('a')['href']
                 video_soap = BeautifulSoup(s.get(video_page).text, 'html5lib')
+                try:
+                    last_update_time = video_soap.find('ul', {'class': 'article-meta'}).find_all('li')[1].text[
+                                       :10] + ' 00:00:00'
+                except Exception as e:
+                    last_update_time = '2020-01-01 00:00:00'
+                    info.logger("url: " + url + "\n" + str(e))
+                    print(e)
                 title = video_soap.find('h1', {'class': 'article-title'}).find('a').text.rstrip('在线观看')
                 name_el = i.find('h2').text
                 name = name_el
@@ -49,7 +56,7 @@ while True:
                     official_site = official_site_el.next_sibling
                 area_el = video_info.find('strong', text='国家/地区:')
                 area = ''
-                if area is not None:
+                if area_el is not None:
                     area = area_el.next_sibling
                 language_el = video_info.find('strong', text='语言:')
                 language = ''
@@ -119,22 +126,28 @@ while True:
                     img_name_offset = cover_picture_origin.rfind('/')
                     img_name = cover_picture_origin[img_name_offset + 1::]
                     cover_picture = img_name
-                    img_file = requests.get(cover_picture_origin).content
-                    # open(info.cover_path + img_name, 'wb').write(img_file)
+                    # try:
+                    #     img_file = requests.get(cover_picture_origin).content
+                    #     open(info.cover_path + img_name, 'wb').write(img_file)
+                    # except Exception as e:
+                    #     print(e)
                 plot_introduction = video_soap.find('p', {'class': 'jianjie'}).find('span').text.replace('"', '\\\"')
 
                 category = video_soap.find('ul', {'class': 'article-meta'}).find('a').text
                 sql_category_id = "select id from tv_categories where category_name='%s'" % category.rstrip('片')
                 cursor.execute(sql_category_id)
                 cat_id = cursor.fetchone()
+                cat_id_ = 12
+                if cat_id is not None:
+                    cat_id_ = cat_id[0]
 
                 # get download resources
                 down_list = video_soap.find('ul', {'id': 'download-list'})
                 if down_list is not None:
                     li_list = down_list.find_all('li')
-                    sql_series = 'insert into tv_series(official_site, title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
-                        official_site, title, name, str(director), str(scriptwriter), str(cast),
-                        category, cat_id[0], tags,
+                    sql_series = 'insert into tv_series(update_time, official_site, title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
+                        last_update_time, official_site, title, name, str(director), str(scriptwriter),
+                        str(cast),category, cat_id_, tags,
                         str(area), str(language), str(debut_date), str(debut_area), str(season),
                         str(season_cn), str(episode_num), len(li_list), str(episode_time), str(alias),
                         str(imdb_code), str(score), plot_introduction, cover_picture, cover_picture_origin,
@@ -172,16 +185,19 @@ while True:
                                 series_id, img_name, img['data-original'], date_time, date_time)
                             cursor.execute(sql_img)
                             connection.commit()
-                            img_file = requests.get(img['data-original']).content
-                            # open(info.plot_img_path + img_name, 'wb').write(img_file)
+                # try:
+                #     img_file = requests.get(img['data-original']).content
+                #     open(info.plot_img_path + img_name, 'wb').write(img_file)
+                # except Exception as e:
+                #     pass
+                #     print(e)
             except Exception as ee:
-                print('name:' + name + ' url:' + url + ' ' + str(ee))
+                print('name:' + name + ' url:' + video_page + ' ' + str(ee))
                 info.logger('name:' + name + ' url:' + url + ' ' + str(ee))
         next_page = soap.find('li', {'class': 'next-page'})
         if next_page.find('a') is None:
             break
         url = next_page.find('a')['href']
     except Exception as e:
-        print('name:' + name + ' url:' + video_page + ' ' + str(e))
-        info.logger('name:' + name + "\n url: " + video_page + "\n" + str(e))
-        pass
+        print('name:' + name + ' url:' + url + ' ' + str(e))
+        info.logger('name:' + name + "\n url: " + url + "\n" + str(e))
