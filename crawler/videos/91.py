@@ -143,48 +143,50 @@ while True:
 
                 # get download resources
                 down_list = video_soap.find('ul', {'id': 'download-list'})
+                li_list = []
                 if down_list is not None:
                     li_list = down_list.find_all('li')
-                    sql_series = 'insert into tv_series(update_time, official_site, title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
-                        last_update_time, official_site, title, name, str(director), str(scriptwriter),
-                        str(cast),category, cat_id_, tags,
-                        str(area), str(language), str(debut_date), str(debut_area), str(season),
-                        str(season_cn), str(episode_num), len(li_list), str(episode_time), str(alias),
-                        str(imdb_code), str(score), plot_introduction, cover_picture, cover_picture_origin,
-                        str(date_time),
-                        date_time)
-                    cursor.execute(sql_series)
+
+                sql_series = 'insert into tv_series(update_time, official_site, title, name, director, scriptwriter, cast,category, category_id, tags, area, language, debut_date,debut_area, season, season_cn, episode_num, updated_episode_num,episode_time, alias, imdb_code, score, plot_introduction,cover_picture, cover_picture_origin, created_at, updated_at) values ("%s", "%s", "%s", "%s", "%s", "%s", "%s","%s", %d, "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s", "%s","%s", "%s", "%s", "%s")' % (
+                    last_update_time, official_site, title, name, str(director), str(scriptwriter),
+                    str(cast), category, cat_id_, tags,
+                    str(area), str(language), str(debut_date), str(debut_area), str(season),
+                    str(season_cn), str(episode_num), len(li_list), str(episode_time), str(alias),
+                    str(imdb_code), str(score), plot_introduction, cover_picture, cover_picture_origin,
+                    str(date_time),
+                    date_time)
+                cursor.execute(sql_series)
+                connection.commit()
+                series_id = cursor.lastrowid
+
+                # insert series-tag relationship
+                for tag_id in tags_id:
+                    tag_relationship_sql = "insert into tags_relationship (tag_id, series_id, created_at, updated_at) values (%d, %d, '%s', '%s')" % (
+                        tag_id, series_id, date_time, date_time)
+                    cursor.execute(tag_relationship_sql)
                     connection.commit()
-                    series_id = cursor.lastrowid
+                for li in li_list:
+                    name = li.find('span').text
+                    e2dk_href = li.select_one("a[href*=ed2k]")
+                    magnet_href = li.select_one("a[href*=magnet]")
+                    if e2dk_href is not None:
+                        e2dk = e2dk_href['href']
+                    if magnet_href is not None:
+                        magnet = magnet_href['href']
+                    sql_episode = 'insert into tv_episode (tv_series_id, name, e2k, magnet, created_at, updated_at) values(%d, "%s", "%s", "%s", "%s", "%s")' % (
+                        series_id, name, e2dk, magnet, date_time, date_time)
+                    cursor.execute(sql_episode)
+                    connection.commit()
 
-                    # insert series-tag relationship
-                    for tag_id in tags_id:
-                        tag_relationship_sql = "insert into tags_relationship (tag_id, series_id, created_at, updated_at) values (%d, %d, '%s', '%s')" % (
-                            tag_id, series_id, date_time, date_time)
-                        cursor.execute(tag_relationship_sql)
+                img_list = video_soap.find('p', {'class': 'jietu'})
+                if img_list is not None:
+                    for img in img_list.find_all('img'):
+                        img_name_offset = img['data-original'].rfind('/')
+                        img_name = img['data-original'][img_name_offset + 1::]
+                        sql_img = "insert into tv_series_img (tv_series_id, link, origin_link, created_at, updated_at) values (%d, '%s', '%s', '%s', '%s')" % (
+                            series_id, img_name, img['data-original'], date_time, date_time)
+                        cursor.execute(sql_img)
                         connection.commit()
-                    for li in li_list:
-                        name = li.find('span').text
-                        e2dk_href = li.select_one("a[href*=ed2k]")
-                        magnet_href = li.select_one("a[href*=magnet]")
-                        if e2dk_href is not None:
-                            e2dk = e2dk_href['href']
-                        if magnet_href is not None:
-                            magnet = magnet_href['href']
-                        sql_episode = 'insert into tv_episode (tv_series_id, name, e2k, magnet, created_at, updated_at) values(%d, "%s", "%s", "%s", "%s", "%s")' % (
-                            series_id, name, e2dk, magnet, date_time, date_time)
-                        cursor.execute(sql_episode)
-                        connection.commit()
-
-                    img_list = video_soap.find('p', {'class': 'jietu'})
-                    if img_list is not None:
-                        for img in img_list.find_all('img'):
-                            img_name_offset = img['data-original'].rfind('/')
-                            img_name = img['data-original'][img_name_offset + 1::]
-                            sql_img = "insert into tv_series_img (tv_series_id, link, origin_link, created_at, updated_at) values (%d, '%s', '%s', '%s', '%s')" % (
-                                series_id, img_name, img['data-original'], date_time, date_time)
-                            cursor.execute(sql_img)
-                            connection.commit()
                 # try:
                 #     img_file = requests.get(img['data-original']).content
                 #     open(info.plot_img_path + img_name, 'wb').write(img_file)
