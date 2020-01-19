@@ -7,7 +7,7 @@ url = info.url_update
 # turn pages
 while True:
     try:
-        print('scraping ' + url)
+        # print('scraping ' + url)
         s = requests.Session()
         r = s.get(url, headers=info.headers).text
         soap = BeautifulSoup(r, 'html5lib')
@@ -33,7 +33,7 @@ while True:
                 sql_check = "select * from tv_series where title='%s'" % title
                 cursor.execute(sql_check)
                 if cursor.fetchone() is not None:
-                    print('no new updated moves')
+                    print(date_time+' no new updated moves')
                     exit()
                 name_el = i.find('h2').text
                 name = name_el
