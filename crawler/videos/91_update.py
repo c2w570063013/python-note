@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import info
 from datetime import datetime
 
-url = info.url
+url = info.url_update
 # turn pages
 while True:
     try:
@@ -30,6 +30,11 @@ while True:
                     info.logger("url: " + url + "\n" + str(e))
                     print(e)
                 title = video_soap.find('h1', {'class': 'article-title'}).find('a').text.rstrip('在线观看')
+                sql_check = "select * from tv_series where title='%s'" % title
+                cursor.execute(sql_check)
+                if cursor.fetchone() is not None:
+                    print('no new updated moves')
+                    exit()
                 name_el = i.find('h2').text
                 name = name_el
                 print('scraping name:' + name)

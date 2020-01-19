@@ -5,6 +5,7 @@ import traceback
 
 main_url = 'https://91mjw.com'
 url = 'https://91mjw.com/all'
+url_update = 'https://91mjw.com/last-update'
 headers = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     # "Accept-Encoding": "gzip, deflate, br",
